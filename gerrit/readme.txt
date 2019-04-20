@@ -1,0 +1,2 @@
+gerrit登录端口使用的是apache2的端口号
+gerrit登录成功后使用的是gerrit的review端口
