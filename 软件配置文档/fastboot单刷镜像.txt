@@ -1,0 +1,5 @@
+adb wait-for-device
+#adb root
+adb reboot bootloader
+fastboot flash aboot X:\emmc_appsboot.mbn
+fastboot reboot

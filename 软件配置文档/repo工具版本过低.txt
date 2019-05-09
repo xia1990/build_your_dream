@@ -1,0 +1,14 @@
+1：到.repo/repo目录下，执行git pull git@220.248.73.35:git-repo.git
+执行如上步聚如果有冲突，进入到.repo/repo目录下，执行如下3步：
+git clean -fdx
+git reset --hard HEAD~10
+git pull git@220.248.73.35:git-repo.git
+
+2：退到代码根目录执行：
+repo sync --force-sync
+
+3：单拉某个目录使用如下命令：
+repo sync build/make
+
+4：repo引导脚本中的REPO_URL地址改成git@220.248.73.35:git-repo.git
+
