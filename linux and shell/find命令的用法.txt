@@ -1,0 +1,10 @@
+find中-prune的用法：
+
+find . -name remoting.jar -prune -o -print   =========== （在当前目录下查找除了remoting.jar的文件，并打印出来）
+#输出除了.repo和.git之外的文件
+find . -name .repo -prune -o -name .git -prune -o -print
+#输出除了.repo和.git和remoting目录之外的文件
+find . -name .repo -prune -o -name .git -prune -o -name remoting -prune -o -print
+
+在apps下查找但不要Apps/bin下查找以txt结尾的文件
+find apps -path apps/bin -prune -o -type f -name "*.txt" -print
