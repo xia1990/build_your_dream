@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #_*_ coding:utf-8 _*_
-#将修改点的内容写入Excel表格中
 
 import xlwt
 import xlrd
