@@ -1,0 +1,54 @@
+gerrit中的replation插件的配置方法
+1
+[remote "mirrorServer"]
+url = gerrit@mirrorServer:/home/gerrit/review_site/git/${name}.git   ==========（这里可以理解为需要备份到的服务器地址）
+push = +refs/heads/*:refs/heads/*
+push = +refs/tags/*:refs/tags/*
+mirror = true
+threads = 3
+replicationDelay = 15
+--------------------- 
+作者：CPlusPlusLove 
+来源：CSDN 
+原文：https://blog.csdn.net/chenjh213/article/details/50500527
+
+Y²C:
+第一行 是标题 随便起了个名字
+
+Y²C:
+第二行 是push到远程仓库的地址
+
+Y²C:
+第三行是 本地 refs/heads/* 下的所有东西 会push过去
+
+Y²C:
+第四行是 本地 refs/tags/* 下的所有东西 会push过去
+Y²C:
+mirror好像是 这个是不是 mirror服务器
+
+Y²C:
+threads  是多线程 push
+
+
+会开发语言
+
+Y²C:
+replicationDelay 是主服务器提交代码后，从服务器 15秒后开始同步代码
+Y²C:
+就是说 gerrit会吧 自己仓库的东西
+
+Y²C:
+通过 git push ，push到另一台服务器 叫做mirror服务器，或者从服务器
+
+Y²C:
+push 的地址是 url = gerrit@mirrorServer:/home/gerrit/review_site/git/${name}.git
+
+Y²C:
+push 的东西 是 refs/heads refs/tags 下的东西，也就是分支 和 tag
+
+Y²C:
+push的时候 会多个仓库 一起push ，thread=3  意思是同时push 3个仓库
+
+Y²C:
+主服务器提交代码后，不是立刻就push到从服务器，而是等待 replicationDelay = 15 ，15秒后才会push
+

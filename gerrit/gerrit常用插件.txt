@@ -1,0 +1,7 @@
+commit-message-length-validator：提交消息长度验证
+download-commands：下载命令
+hooks：挂钩
+replication：复制
+reviewnotes：
+review-strategy：审核策略
+singleusergroup：singleusergroup
