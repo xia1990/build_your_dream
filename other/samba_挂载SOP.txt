@@ -1,0 +1,31 @@
+1.在某台linux 服务器上搭建samba 
+
+2.在当前linux服务器上 新建 /mnt/master_mirror 目录
+
+3.挂载mirror 到当前服务器
+
+	sudo mount -t cifs -o username=账户,password=密码 //ip/目录 /mnt/master_mirror
+
+		
+4.开机自动挂载
+	vi /etc/fstab 新增如下内容
+	
+	//ip/目录 /mnt/master_mirror cifs username=账户,password=密码 0 0
+
+
+######################
+
+去掉本机所有挂载
+	umount -a
+挂载本机/etc/fstab 中的所有挂载
+	mount -a
+
+######################
+
+挂载需要先在本地任意地方建立一个空文件夹
+
+然后使用 mount 命令讲 网络上的磁盘 挂载到本地空文件夹上
+
+samba服务器的挂载案例：
+mirror库镜像就是一块单独的磁盘，然后挂载在各个编译服务器上
+	
