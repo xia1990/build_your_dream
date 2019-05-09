@@ -1,0 +1,140 @@
+#!/bin/bash
+WsRootDir=`pwd`
+targetpath=$WsRootDir/alps
+user=`whoami`
+
+function log(){
+    local -r level="$1"
+    local -r string="$2"
+    local -r time_now=$(date +%Y-%m-%d' '%H:%M:%S)
+    case "$level" in
+       "error") echo -e "\e[31m$time_now ERROR: $string\e[0m" ;;
+       "info") echo "$time_now INFO: $string" ;;
+       "good") echo -e "\e[32m$time_now GOOD: $string\e[0m" ;;
+       "notice") echo -e "\e[34m$time_now NOTICE: $string\e[0m" ;;
+    esac
+}
+
+function parse_args(){
+    PROJECT="$1"
+    ALPS="$2"
+
+    PROJECT_LIST=(S102X M500N P118F P118F_Factory S102X_SDM450 S102X_Factory M500N_Factory)
+    if [ "$PROJECT" != "" ]
+    then
+        case "$PROJECT" in
+            S102X)
+            S102X_URL="ssh://10.0.30.10:29418/LNX_LA_MSM8917_S102X_PSW/Manifest"
+            S102X_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/S102X_MIRROR_REPO/"
+            BRANCH=master
+            ;;
+            M500N)
+            M500N_URL="ssh://10.0.30.10:29418/LNX_SDM710_M500N_R10/Manifest"
+            M500N_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/M500N_MIRROR_REPO/"
+            BRANCH=PSW
+            ;;
+            P118F)
+            P118F_URL="ssh://10.0.30.10:29418/LNX_LA_SDM450_PSW/Manifest"
+            P118F_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/P118F_MIRROR_REPO/"
+            BRANCH=master
+            ;;
+            P118F_Factory)
+            P118F_Factory_URL="ssh://10.0.30.10:29418/LNX_LA_SDM450_PSW/Manifest"
+            P118F_Factory_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/P118F_MIRROR_REPO/"
+            BRANCH=Stable_P118F_Factory_BRH
+            ;;
+            S102X_SDM450)
+            S102X_SDM450_URL="ssh://10.0.30.10:29418/LNX_LA_SDM450_S102X_PSW/Manifest"
+            S102X_SDM450_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/S102X_SDM450_MIRROR/"
+            BRANCH="master"
+            ;;
+            S102X_Factory)
+            S102X_Factory_URL="ssh://10.0.30.10:29418/LNX_LA_SDM450_S102X_PSW/Manifest"
+            S102X_Factory_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/S102X_SDM450_MIRROR/"
+            BRANCH="Stable_Factory_BRH"
+            ;;
+            M500N_Factory)
+            M500N_Factory_URL="ssh://10.0.30.10:29418/LNX_SDM710_M500N_R10/Manifest"
+            M500N_Factory_MIRROR="/EXCHANGE/mirror/AIBG_MIRROR/M500N_MIRROR_REPO/"
+            BRANCH="Stable_Factory_BRH"
+            ;;
+        esac
+    fi
+
+    PROJECT_flag="false"
+    if [[ "$PROJECT" != "" || "$BRANCH" != "" ]]
+    then
+        for PROJECT_NAME in "${PROJECT_LIST[@]}"
+        do
+             if [ "$PROJECT" == "$PROJECT_NAME" ]
+             then
+                PROJECT_flag="true"
+                break
+             fi
+        done
+        [ "$PROJECT_flag" == "false" ] &&  log "error" "$PROJECT not exist!!!!" && exit 1
+
+        if [ "$PROJECT_flag" == "true" ]
+        then
+            case "$PROJECT" in
+            S102X)
+                code_url="$S102X_URL"
+                code_mirror="$S102X_MIRROR"
+                ;;
+            M500N)
+                code_url="$M500N_URL"
+                code_mirror="$M500N_MIRROR"
+                ;;
+            P118F)
+                code_url="$P118F_URL"
+                code_mirror="$P118F_MIRROR"
+                ;;
+            P118F_Factory)
+                code_url="$P118F_Factory_URL"
+                code_mirror="$P118F_Factory_MIRROR"
+                ;;
+            S102X_SDM450)
+                code_url="$S102X_SDM450_URL"
+                code_mirror="$S102X_SDM450_MIRROR"
+                ;;
+            S102X_Factory)
+                code_url="$S102X_Factory_URL"
+                code_mirror="$S102X_Factory_MIRROR"
+                ;;
+            M500N_Factory)
+                code_url="$M500N_Factory_URL"
+                code_mirror="$M500N_Factory_MIRROR"
+                ;;
+            esac
+        fi
+    fi
+}
+
+function download_code()
+{
+    [ -d "$code_mirror" ] || log "notice" "请联系SCM部署mirror"
+    if [ x$ALPS == x"na" ];then
+    {
+        repo init -u "$code_url"  -m manifest.xml -b $BRANCH --reference="$code_mirror" --repo-url=ssh://10.0.30.10:29418/Tools/Repo --no-repo-verify
+        sed  -i "s/itadmin\@//g" .repo/manifests/manifest.xml
+        repo sync -cj4
+        repo start "$BRANCH" --all
+    }
+    else
+    {
+        if [ ! -d $targetpath ];then
+            mkdir $targetpath
+        fi
+        cd $targetpath
+        repo init -u "$code_url"  -m manifest.xml -b $BRANCH --reference="$code_mirror" --repo-url=ssh://10.0.30.10:29418/Tools/Repo --no-repo-verify
+        sed  -i "s/itadmin\@//g" .repo/manifests/manifest.xml
+        repo sync -cj4
+        repo start "$BRANCH" --all
+        cd -
+    }
+    fi
+}
+
+###########################################
+parse_args "$@"
+download_code

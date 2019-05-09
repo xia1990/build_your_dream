@@ -1,0 +1,15 @@
+samba服务器搭建:https://www.cnblogs.com/jfyl1573/p/6514634.html (可参照此网页)
+
+smbclient命令的使用:
+列出指定IP地址下所有共享文件夹
+smbclient -L 192.168.56.101 -U gerrit%gerrit =============== (gerrit%gerrit在这里是帐号和密码)
+进入smbclient命令行
+smbclient //192.168.56.101/gerrit -U gerrit%gerrit
+进入命令行之后可使用?,查看可以使用的命令
+?
+
+get命令是把远程ftp目录的文件拿到本地目录(下载)
+put是把本地目录的文件上传至远程ftp目录上(上传)
+\>!pwd  是查询当前的本地所在目录
+\>pwd  查询远端ftp所在目录
+? command:可以查看一个命令的使用方法
