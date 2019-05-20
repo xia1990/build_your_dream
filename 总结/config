@@ -1,0 +1,9 @@
+Host gerrit-cn.motorola.com
+Port 29418
+User wind_libing_tmp 
+ServerAliveInterval 60
+
+Host 10.0.30.10
+    User gaoyuxia
+Host 10.0.30.251
+	User gaoyuxia
