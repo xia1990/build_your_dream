@@ -1,0 +1,7 @@
+1：在服务器根目录创建bin文件
+2：将repo引导脚本放在bin目录下
+3：chmod a+x ~/bin/repo 赋予repo引导脚本可执行权限
+引导脚本中的url需要改成你repo工具的路径：
+REPO_URL = 'ssh://10.80.30.10:29418/Tools/Repo'
+4：在.bashrc文件中添加如下内容：
+   PATH=~/bin:$PATH
