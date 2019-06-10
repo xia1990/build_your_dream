@@ -1,10 +1,13 @@
-1.在某台linux 服务器上搭建samba 
+1.在mirror共享linux 服务器上搭建samba 
 
-2.在当前linux服务器上 新建 /mnt/master_mirror 目录
+2.在当前linux编译服务器上 新建 /EXCHANGE/mirror 目录
 
-3.挂载mirror 到当前服务器
+3.挂载mirror到当前编译服务器（如下命令在目标服务器上执行）
 
 	sudo mount -t cifs -o username=账户,password=密码 //ip/目录 /mnt/master_mirror
+	例如：
+	mount -t cifs -o username=root,password=root //192.168.56.101/EXCHANGE/mirror /EXCHANGE/mirror
+	(第一个/EXCHANGE/mirror目录必须为共离的目录)
 
 		
 4.开机自动挂载

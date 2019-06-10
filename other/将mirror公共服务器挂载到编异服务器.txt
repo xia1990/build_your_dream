@@ -1,0 +1,2 @@
+1：在每台服务器上新建/EXCHANGE/mirror
+2：在mirror服务器上安装samba以实现共享
