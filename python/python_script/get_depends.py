@@ -6,6 +6,7 @@ sys.setrecursionlimit(1500)
 dd={}
 topList=[]
 
+#读取data.json文件
 with open('data.json') as jf:
 	for line in jf.readlines():
 		dd=json.loads(line)
