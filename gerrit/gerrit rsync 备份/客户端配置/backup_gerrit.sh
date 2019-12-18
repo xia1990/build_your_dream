@@ -16,3 +16,6 @@ rsync -avzp --delete gerrit@10.0.30.9:~/passwords .
 #ssh gerrit@10.0.30.9 && ls
 echo "back up successful"
 date
+
+GD32F4xx_USB_CustomHID_keyboard_cdc_cd-rom 
+WAI0017_GD32F4_USB_HID
