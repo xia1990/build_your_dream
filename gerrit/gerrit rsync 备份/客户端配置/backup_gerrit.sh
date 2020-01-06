@@ -18,4 +18,6 @@ echo "back up successful"
 date
 
 GD32F4xx_USB_CustomHID_keyboard_cdc_cd-rom 
-WAI0017_GD32F4_USB_HID
+WAI0017_GD32F4_USB_HID编译模块:
+Examples\USB\USB_Device\Composite\MDK-ARM
+
